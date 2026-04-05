@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora ICMS</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #00c853;
+      color: white;
+      cursor: pointer;
+    }
+
+    .resultado {
+      margin-top: 15px;
+      background: #222;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>ICMS</h2>
+
+  <input type="number" id="comIcms" placeholder="Valor com ICMS">
+  <input type="number" id="semIcms" placeholder="Valor sem ICMS">
+  <input type="number" id="qtd" placeholder="Quantidade">
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+function icmsUni(valorComIcms, valorSemIcms, quantidade) {
+  const icmsTotal = valorComIcms - valorSemIcms;
+  const icmsPorUnidade = icmsTotal / quantidade;
+
+  return {
+    icmsTotal,
+    icmsPorUnidade
+  };
+}
+
+function calcular() {
+  const valorComIcms = parseFloat(document.getElementById("comIcms").value);
+  const valorSemIcms = parseFloat(document.getElementById("semIcms").value);
+  const quantidade = parseFloat(document.getElementById("qtd").value);
+
+  const r = icmsUni(valorComIcms, valorSemIcms, quantidade);
+
+  document.getElementById("resultado").innerHTML = `
+    ICMS Total: ${r.icmsTotal.toFixed(8)} <br>
+    ICMS por Unidade: ${r.icmsPorUnidade.toFixed(8)}
+  `;
+}
+</script>
+
+</body>
+</html>
