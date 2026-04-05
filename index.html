@@ -22,7 +22,7 @@
     }
 
     input, button {
-      width: 100%;
+      width: 93%;
       padding: 10px;
       margin-top: 10px;
       border: none;
@@ -48,7 +48,7 @@
 <div class="box">
   <h2>ICMS</h2>
 
-  <input type="number" id="comIcms" placeholder="Valor com ICMS">
+  <input type="number" id="comIcms" placeholder="Valor com ICMS" autofocus>
   <input type="number" id="semIcms" placeholder="Valor sem ICMS">
   <input type="number" id="qtd" placeholder="Quantidade">
 
@@ -63,6 +63,7 @@ function icmsUni(valorComIcms, valorSemIcms, quantidade) {
   const icmsPorUnidade = icmsTotal / quantidade;
 
   return {
+    valorComIcms,
     icmsTotal,
     icmsPorUnidade
   };
@@ -76,10 +77,33 @@ function calcular() {
   const r = icmsUni(valorComIcms, valorSemIcms, quantidade);
 
   document.getElementById("resultado").innerHTML = `
-    ICMS Total: ${r.icmsTotal.toFixed(8)} <br>
+    ICMS Total: ${r.icmsTotal.toFixed(4)} <br>
     ICMS por Unidade: ${r.icmsPorUnidade.toFixed(8)}
   `;
 }
+
+// ENTER pula campo
+const inputs = document.querySelectorAll("input");
+
+inputs.forEach((input, index) => {
+    // Seleciona ao focar
+  input.addEventListener("focus", function() {
+    this.select();
+  });
+  // Enter Navega
+  input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (index < inputs.length - 1) {
+        inputs[index + 1].focus(); // vai pro próximo campo
+      } else {
+        calcular(); // último campo → calcula        
+        inputs[0].focus();
+      }
+    }
+  });
+});
 </script>
 
 </body>
